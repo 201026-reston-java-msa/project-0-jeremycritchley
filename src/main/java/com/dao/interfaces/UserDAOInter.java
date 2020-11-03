@@ -2,6 +2,6 @@ package com.dao.interfaces;
 
 import com.models.User;
 
-public interface UserDAOIntr extends GenericDAO<User> {
+public interface UserDAOInter extends GenericDAO<User> {
 	
 }

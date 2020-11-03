@@ -7,14 +7,14 @@ import com.models.User;
 
 public interface EmployeeServiceInter {
 
-	void viewAllAccounts();
+	List<Account> viewAllAccounts();
 	
-	void viewAllCustomers();
+	List<User> viewAllCustomers();
 	
 	Account viewByAccount(int accId);
 	
 	User viewByUser(int userId);
 	
-	void viewOpenAccounts();
+	List<Account> viewOpenAccounts();
 
 }

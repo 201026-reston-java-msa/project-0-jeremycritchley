@@ -17,4 +17,10 @@ public class LoginService implements LoginServiceInter {
 		return null;
 	}
 
+	@Override
+	public boolean logout() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
