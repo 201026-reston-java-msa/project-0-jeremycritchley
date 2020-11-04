@@ -10,28 +10,52 @@ public class Driver {
 
 	public static void main(String[] args) {
 		
-		System.out.println("Welcome to the Console Based Banking Application");
-		
-		run();
+		while (true) {
+			System.out.println("Welcome to the Console Based Banking Application");
+			
+			User u = getCurUser();
+			
+			goToService(u);
+		}
 		
 	}
 	
-	public static void run() {
+	private static void goToService(User cur) {
+		
+		// based on Login credentials
+		// create admin, employee, or standard console
+		Console console = null;
+		if (cur.getRole().equals("standard")) {
+			console = new StandardConsole(cur);
+		} else if (cur.getRole().equals("employee")) {
+			console = new EmployeeConsole(cur);
+		} else if (cur.getRole().equals("admin")) {
+			console = new AdminConsole(cur);
+		}
+		
+		console.run();
+		
+	}
+
+	public static User getCurUser() {
 		
 		Scanner input = new Scanner(System.in);
 		// create new LoginService
 		// Login or Register
 		
-		int choice = 0;
-		while (choice != 1 && choice != 2) {
+		int choice = -1;
+		while (choice != 1 && choice != 2 && choice != 0) {
 			System.out.println("Please enter a: "
 					+ "\t1 : to login to an existing account"
-					+ "\t2 : to register a new account");
+					+ "\t2 : to register a new account"
+					+ "\t0 : to quit the application");
 		
 			try {
 				choice = input.nextInt();
+				input.nextLine();
 			} catch (InputMismatchException e) {
 				System.out.println("That was not even a number...");
+				input.nextLine();
 			}
 		}
 		
@@ -39,23 +63,37 @@ public class Driver {
 		User cur = null;
 		if (choice == 1) {
 			cur = ls.login();
-		} else {
+		} else if (choice == 2){
 			cur = ls.register();
+		} else {
+			System.out.println("Thank you for using the Banking Application\nGoodbye\n\n");
+			System.exit(0);
 		}
 		
 		if (cur == null) {
+			System.out.println("Failed to access account");
+			
+			String c = "";
+			do {
+				System.out.println("Would you like to try again? [y/n]");
+				c = input.nextLine();
+				
+			} while (!c.equalsIgnoreCase("y") && !c.equalsIgnoreCase("n"));
+			
+			if (c.equalsIgnoreCase("y")) {
+				cur = getCurUser();
+			} else {
+				System.out.println("Thank you for using the Banking Application\nGoodbye\n\n");
+				System.exit(0);
+			}
 			
 		}
-		// based on Login credentials
-		// create admin, employee, or standard console
 		
-		if (cur.getRole().equals("standard")) {
-			
-		} else if (cur.getRole().equals("employee")) {
-			
-		} else if (cur.getRole().equals("admin")) {
-			
-		}
+		return cur;
+		
+		
+		
+		
 	}
 
 }

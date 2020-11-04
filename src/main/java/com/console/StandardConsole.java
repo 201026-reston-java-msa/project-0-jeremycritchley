@@ -1,30 +1,51 @@
 package com.console;
 
-import com.console.interfaces.StandardConsoleInterface;
+import com.models.Account;
+import com.models.User;
 
-public class StandardConsole implements StandardConsoleInterface {
+public class StandardConsole extends Console {
+	
+	public StandardConsole(User u) {
+		this.cur = u;
+	}
 
-	public StandardConsole() {
-		run();
+	@Override
+	protected void processInput(int in) {
+
+		if (in == 1) {
+			displayPersonalAccountOptions();
+		} else if (in == 2) {
+			System.out.println(cur.toString());
+		} else {
+			System.out.println("Invalid Input");
+		}
+		
+	}
+
+	@Override
+	protected void applyForAccount(int userId) {
+		Account acc = new Account(0, cur.getUserId(), 0, 0);
+		acc = accServ.create(acc);
+		System.out.println("An Account has been opened for you\n."
+				+ "It's default status is PENDING");
+		
+	}
+
+	@Override
+	protected void displayOptions() {
+		
+		System.out.println(count++ + " :\tPersonal Account Options");
+		System.out.println(count++ + " :\tDisplay Personal Information");
+		
+	}
+
+	@Override
+	protected void displayHeader() {
+		
+		System.out.println(cur.getFirstName() + "'s Console Banking App");
+		
 	}
 	
-	@Override
-	public void run() {
-		
-		System.out.println("");
 	
-	}
-
-	@Override
-	public void displayOptions() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void printLine() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

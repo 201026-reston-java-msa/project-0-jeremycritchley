@@ -2,10 +2,10 @@ package com.dao;
 
 import java.util.List;
 
-import com.dao.interfaces.UserDAOInter;
+import com.dao.interfaces.GenericDAO;
 import com.models.User;
 
-public class UserDAO implements UserDAOInter {
+public class UserDAO implements GenericDAO<User> {
 
 	@Override
 	public User create(User t) {

@@ -21,12 +21,6 @@ public class EmployeeService implements EmployeeServiceInter {
 	}
 
 	@Override
-	public Account viewByAccount(int accId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public User viewByUser(int userId) {
 		// TODO Auto-generated method stub
 		return null;

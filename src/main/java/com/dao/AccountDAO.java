@@ -2,10 +2,10 @@ package com.dao;
 
 import java.util.List;
 
-import com.dao.interfaces.AccountDAOInter;
+import com.dao.interfaces.GenericDAO;
 import com.models.Account;
 
-public class AccountDAO implements AccountDAOInter {
+public class AccountDAO implements GenericDAO<Account> {
 
 	@Override
 	public Account create(Account t) {
@@ -36,8 +36,11 @@ public class AccountDAO implements AccountDAOInter {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public List<Account> getByUser(int userId) {
+		return null;
+	}
 
-	@Override
 	public List<Account> getByStatus(int status) {
 		// TODO Auto-generated method stub
 		return null;

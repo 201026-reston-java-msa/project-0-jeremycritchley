@@ -11,8 +11,6 @@ public interface EmployeeServiceInter {
 	
 	List<User> viewAllCustomers();
 	
-	Account viewByAccount(int accId);
-	
 	User viewByUser(int userId);
 	
 	List<Account> viewOpenAccounts();
