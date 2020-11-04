@@ -4,8 +4,9 @@ import java.util.List;
 
 import com.models.Account;
 import com.services.interfaces.AccountServiceInter;
+import com.services.interfaces.AccountsById;
 
-public class AccountService implements AccountServiceInter {
+public class AccountService implements AccountServiceInter, AccountsById {
 
 	@Override
 	public boolean withdraw(Account acc, double amount) {
@@ -28,12 +29,6 @@ public class AccountService implements AccountServiceInter {
 	
 	@Override
 	public List<Account> getAccountsByUser(int userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Account getAccountById(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

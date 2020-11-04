@@ -4,9 +4,9 @@ import com.models.User;
 
 public interface LoginServiceInter {
 	
-	User login();
+	User login(String username, String password);
 	
-	User register();
+	User register(User u);
 	
 	boolean logout();
 }

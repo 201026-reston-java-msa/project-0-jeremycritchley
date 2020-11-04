@@ -16,6 +16,8 @@ public class StandardConsole extends Console {
 			displayPersonalAccountOptions();
 		} else if (in == 2) {
 			System.out.println(cur.toString());
+		} else if (in == 0){
+			logout();
 		} else {
 			System.out.println("Invalid Input");
 		}

@@ -13,8 +13,6 @@ public interface AccountServiceInter {
 	boolean transfer(Account srcAcc, Account targetAcc, double amount);
 
 	List<Account> getAccountsByUser(int userId);
-
-	Account getAccountById(int id);
 	
 	Account create(Account acc);
 	

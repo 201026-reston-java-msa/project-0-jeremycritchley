@@ -4,9 +4,10 @@ import java.util.List;
 
 import com.models.Account;
 import com.models.User;
+import com.services.interfaces.AccountsById;
 import com.services.interfaces.EmployeeServiceInter;
 
-public class EmployeeService implements EmployeeServiceInter {
+public class EmployeeService implements EmployeeServiceInter, AccountsById {
 
 	@Override
 	public List<Account> viewAllAccounts() {

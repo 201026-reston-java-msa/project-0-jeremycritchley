@@ -4,7 +4,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.models.User;
-import com.services.LoginService;
 
 public class Driver {
 
@@ -14,8 +13,8 @@ public class Driver {
 			System.out.println("Welcome to the Console Based Banking Application");
 			
 			User u = getCurUser();
-			
-			goToService(u);
+			if (u != null)
+				goToService(u);
 		}
 		
 	}
@@ -45,28 +44,29 @@ public class Driver {
 		
 		int choice = -1;
 		while (choice != 1 && choice != 2 && choice != 0) {
-			System.out.println("Please enter a: "
-					+ "\t1 : to login to an existing account"
-					+ "\t2 : to register a new account"
-					+ "\t0 : to quit the application");
+			System.out.println("Please enter a:\n"
+					+ "\t1 : to login to an existing account\n"
+					+ "\t2 : to register a new account\n"
+					+ "\t0 : to quit the application\n");
 		
 			try {
 				choice = input.nextInt();
-				input.nextLine();
 			} catch (InputMismatchException e) {
 				System.out.println("That was not even a number...");
 				input.nextLine();
 			}
 		}
 		
-		LoginService ls = new LoginService();
+		LoginConsole ls = new LoginConsole();
 		User cur = null;
+		
 		if (choice == 1) {
 			cur = ls.login();
 		} else if (choice == 2){
 			cur = ls.register();
 		} else {
-			System.out.println("Thank you for using the Banking Application\nGoodbye\n\n");
+			
+			System.out.println("Thank you for using the Console Banking Application\nGoodbye\n\n");
 			System.exit(0);
 		}
 		
@@ -81,14 +81,15 @@ public class Driver {
 			} while (!c.equalsIgnoreCase("y") && !c.equalsIgnoreCase("n"));
 			
 			if (c.equalsIgnoreCase("y")) {
-				cur = getCurUser();
+				input.close();
+				return null;
 			} else {
 				System.out.println("Thank you for using the Banking Application\nGoodbye\n\n");
 				System.exit(0);
 			}
 			
 		}
-		
+		input.close();
 		return cur;
 		
 		

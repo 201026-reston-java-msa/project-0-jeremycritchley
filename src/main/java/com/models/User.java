@@ -7,18 +7,20 @@ public class User {
 	private String password;
 	private String firstName;
 	private String lastName;
+	private String email;
 	private String role;
 	
 	public User() {
 		super();
 	}
 	
-	public User (int userId, String username, String password, String firstName, String lastName, String role) {
+	public User (int userId, String username, String password, String firstName, String lastName, String email,  String role) {
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.email = email;
 		this.role = role;
 	}
 
@@ -68,6 +70,14 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	

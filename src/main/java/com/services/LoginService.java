@@ -6,14 +6,15 @@ import com.services.interfaces.LoginServiceInter;
 public class LoginService implements LoginServiceInter {
 
 	@Override
-	public User login() {
-		// TODO Auto-generated method stub
+	public User login(String username, String password) {
+		
 		return null;
 	}
 
 	@Override
-	public User register() {
+	public User register(User u) {
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -21,6 +22,17 @@ public class LoginService implements LoginServiceInter {
 	public boolean logout() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public boolean usernameExists(String username) {
+		return false;
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public boolean emailExists(String email ) {
+		return false;
+		//TODO
 	}
 
 }
