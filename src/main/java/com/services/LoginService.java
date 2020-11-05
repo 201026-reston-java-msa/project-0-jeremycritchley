@@ -1,38 +1,50 @@
 package com.services;
 
+
+import com.dao.UserDAO;
 import com.models.User;
 import com.services.interfaces.LoginServiceInter;
 
 public class LoginService implements LoginServiceInter {
-
+	
+	UserDAO userd;
+	
+	public LoginService() {
+		userd = new UserDAO();
+	}
+	
 	@Override
 	public User login(String username, String password) {
-		
-		return null;
+		User u = userd.getByString(username, "username");
+		if (u != null) {
+			if (!u.getPassword().equals(password)) 
+				u = null;
+		}
+		return u;
 	}
 
 	@Override
 	public User register(User u) {
-		// TODO Auto-generated method stub
 		
-		return null;
+		return userd.create(u);
 	}
 
 	@Override
-	public boolean logout() {
-		// TODO Auto-generated method stub
+	public boolean usernameExists(String username) {
+		
+		User u = userd.getByString(username, "username");
+		if (u != null) 
+			return true;
+		return false;
+	}
+	
+	@Override
+	public boolean emailExists(String email ) {
+		User u = userd.getByString(email, "email");
+		if (u != null) 
+			return true;
 		return false;
 	}
 
-	public boolean usernameExists(String username) {
-		return false;
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public boolean emailExists(String email ) {
-		return false;
-		//TODO
-	}
 
 }

@@ -26,13 +26,18 @@ public class UserDAO implements GenericDAO<User> {
 	}
 
 	@Override
-	public void delete(User t) {
+	public boolean delete(User t) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
 	public List<User> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public User getByString(String username, String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}

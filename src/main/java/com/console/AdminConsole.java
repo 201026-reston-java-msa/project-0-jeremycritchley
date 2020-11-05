@@ -60,7 +60,7 @@ public class AdminConsole extends EmployeeConsole{
 	}
 	
 	
-	private void deleteUser() {
+	private void deleteAccount() {
 
 		System.out.println("Plese enter the Account ID of the account to be deleted");
 		
@@ -82,7 +82,7 @@ public class AdminConsole extends EmployeeConsole{
 		
 	}
 
-	private void deleteAccount() {
+	private void deleteUser() {
 
 		System.out.println("Please enter the User ID of the User to delete");
 		try {

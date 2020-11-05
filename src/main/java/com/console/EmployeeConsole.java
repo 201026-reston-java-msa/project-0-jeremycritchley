@@ -64,7 +64,50 @@ public class EmployeeConsole extends StandardConsole{
 	}
 	
 	private void approveOrDeny() {
-		// TODO Auto-generated method stub
+		
+		
+		List<Account> accs = accServ.getByStatus(0);
+		
+		if (accs != null) {
+			System.out.println("Listing Pending Accounts to Approve or Deny\nenter 0 to exit");
+			
+			for (Account a : accs) {
+				
+				int c = -1;
+				do {
+					System.out.println("Enter:\n\t1 to Approve\n\t2 to Deny\n\t0 to exit");
+					a.toString();
+					try {
+						c = input.nextInt();
+					} catch (Exception e) {
+						System.out.println("Please enter a Number, Employee");
+					}
+				} while (c < 0 || c > 2);
+				if (c == 1) {
+					a.setStatus(1);
+					if (empServ.update(a)) {
+						System.out.println("Account " + a.getAccId() + " is now Open");
+					} else {
+						System.out.println("A problem occured while trying to Open Account " + a.getAccId());
+					}
+					System.out.println();
+				} else if (c == 2) {
+					a.setStatus(3);
+					if (empServ.update(a)) {
+						System.out.println("Account " + a.getAccId() + " is now Denied\n"
+								+ "It is now available to be deleted by an admin");
+					} else {
+						System.out.println("A problem occured while trying to Open Account " + a.getAccId());
+					}
+				} else {
+					return;
+				}
+			}
+				
+			
+		} else {
+			System.out.println("There are no Pending accounts at this time...");
+		}
 		
 	}
 

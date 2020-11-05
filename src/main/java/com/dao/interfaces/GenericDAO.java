@@ -10,7 +10,7 @@ public interface GenericDAO<T> {
 
 	public T update(T t);
 
-	public void delete(T t);
+	public boolean delete(T t);
 
 	public List<T> getAll();
 

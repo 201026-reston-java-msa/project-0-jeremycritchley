@@ -38,11 +38,8 @@ public abstract class Console {
 			} catch (Exception e) {
 				System.out.println("Invalid Input....");
 			}
-			
-			
-			
-		}
 		
+		}
 		
 	}
 

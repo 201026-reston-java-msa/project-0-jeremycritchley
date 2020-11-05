@@ -26,8 +26,9 @@ public class AccountDAO implements GenericDAO<Account> {
 	}
 
 	@Override
-	public void delete(Account t) {
+	public boolean delete(Account t) {
 		// TODO Auto-generated method stub
+		return false;
 		
 	}
 

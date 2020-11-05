@@ -8,5 +8,8 @@ public interface LoginServiceInter {
 	
 	User register(User u);
 	
-	boolean logout();
+
+	boolean usernameExists(String username);
+
+	boolean emailExists(String email);
 }
