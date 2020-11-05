@@ -1,15 +1,33 @@
 package com.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import com.dao.interfaces.GenericDAO;
 import com.models.User;
+import com.utils.ConnectionUtil;
 
 public class UserDAO implements GenericDAO<User> {
-
+	
+	Connection connection;
+	
+	public UserDAO() {
+		this.connection = ConnectionUtil.getConnection();
+	}
+	
 	@Override
 	public User create(User t) {
-		// TODO Auto-generated method stub
+		User u = null;
+		try {
+			String sql = "";
+			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		} catch (SQLException e) {
+			
+		}
+
 		return null;
 	}
 
