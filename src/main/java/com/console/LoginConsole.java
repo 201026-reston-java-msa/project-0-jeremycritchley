@@ -29,7 +29,7 @@ public class LoginConsole {
 		ls = new LoginService();
 		
 		input = new Scanner(System.in);
-		System.out.println("Welcome Greenhorn to the Console Banking Application\n"
+		System.out.println("Welcome Newcomer to the Console Banking Application\n"
 				+ "Just a few things to get started...\n"
 				+ "Please Enter :\n"
 				+ "First Name:");

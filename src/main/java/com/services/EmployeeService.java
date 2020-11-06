@@ -40,7 +40,7 @@ public class EmployeeService implements EmployeeServiceInter, AccountsById {
 	public List<Account> viewOpenAccounts() {
 
 		accd = new AccountDAO();
-		return accd.getByStatus(0);
+		return accd.getByInt("status", 0);
 	}
 
 	public boolean update(Account a) {

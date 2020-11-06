@@ -37,6 +37,12 @@ public class AccountServiceTests {
 	}
 	
 	@Test
+	public void testDepositFail() {
+		Account a = acc;
+		assertFalse(accServ.deposit(a, -100));
+	}
+	
+	@Test
 	public void testTransferSuccess() {
 		Account a = acc;
 		a.setUserId(2);

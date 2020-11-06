@@ -16,7 +16,7 @@ private static Connection connection;
 		if (connection == null) {
 			try {
 				Class.forName("org.postgresql.Driver");
-				FileInputStream fis = new FileInputStream("connection.properties");
+				FileInputStream fis = new FileInputStream("/Users/jeremycritchley/Documents/RevatureTraining/Project0/project-0-jeremycritchley/connection.properties");
 				Properties prop = new Properties();
 				prop.load(fis);
 				connection = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("username"), prop.getProperty("password"));
@@ -40,7 +40,6 @@ private static Connection connection;
 			if (connection != null)
 				connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

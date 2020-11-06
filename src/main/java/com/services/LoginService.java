@@ -26,6 +26,19 @@ public class LoginService implements LoginServiceInter {
 	@Override
 	public User register(User u) {
 		
+		if (u == null)
+			return null;
+		else if (u.getUsername() == null)
+			return null;
+		else if (u.getPassword() == null)
+			return null;
+		else if (u.getFirstName() == null)
+			return null;
+		else if (u.getLastName() == null)
+			return null;
+		
+		u.setRole("standard");
+		
 		return userd.create(u);
 	}
 

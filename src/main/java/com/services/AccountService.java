@@ -47,7 +47,7 @@ public class AccountService implements AccountServiceInter, AccountsById {
 	
 	@Override
 	public List<Account> getAccountsByUser(int userId) {
-		List<Account> accs = accDAO.getByUser(userId);
+		List<Account> accs = accDAO.getByInt("user_id", userId);
 		
 		return accs;
 	}
@@ -60,7 +60,7 @@ public class AccountService implements AccountServiceInter, AccountsById {
 	}
 	
 	public List<Account> getByStatus(int n) {
-		List<Account> accs = accDAO.getByStatus(n);
+		List<Account> accs = accDAO.getByInt("status", n);
 		return accs;
 	}
 
