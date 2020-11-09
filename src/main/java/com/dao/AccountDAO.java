@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.dao.interfaces.GenericDAO;
 import com.models.Account;
 import com.utils.ConnectionUtil;
@@ -15,6 +17,7 @@ import com.utils.ConnectionUtil;
 public class AccountDAO implements GenericDAO<Account> {
 	
 	Connection connection;
+	private static Logger log = Logger.getLogger(AccountDAO.class);
 	
 	public AccountDAO() {
 		this.connection = ConnectionUtil.getConnection();
@@ -39,10 +42,13 @@ public class AccountDAO implements GenericDAO<Account> {
 			
 			if (rs.next()) {
 				t.setAccId(rs.getInt(1));
+				log.info("CREATED ACCOUNT " + t.getAccId());
 			} else {
+				log.warn("FAILURE TO CREATE ACCOUNT");
 				t = null;
 			}
 		} catch (SQLException e) {
+			log.warn("FAILURE TO CREATE ACCOUNT");
 			t = null;
 		}
 		
@@ -68,6 +74,7 @@ public class AccountDAO implements GenericDAO<Account> {
 			}
 			
 		} catch (SQLException e) {
+			log.warn("FAILURE TO RETRIEVE ACCOUNT " + id);
 			a = null;
 		}
 		
@@ -86,9 +93,12 @@ public class AccountDAO implements GenericDAO<Account> {
 			ps.setDouble(3, t.getBalance());
 			ps.setInt(4, t.getStatus());
 			if (ps.executeUpdate() == 0) {
+				log.warn("FAILURE TO UPDATE ACCOUNT " + t.getAccId());
 				return null;
 			}
+			log.info("UPDATED ACCOUNT " + t.getAccId());
 		} catch (SQLException e) {
+			log.warn("FAILURE TO UPDATE ACCOUNT " + t.getAccId());
 			return null;
 		}
 		return t;
@@ -102,13 +112,17 @@ public class AccountDAO implements GenericDAO<Account> {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, t.getAccId());
 			
-			if (ps.executeUpdate() == 0)
+			if (ps.executeUpdate() == 0) {
+				log.warn("FAILURE TO DELETE ACCOUNT " + t.getAccId());
 				return false;
+			}
 			
 		} catch (SQLException e) {
+			log.warn("FAILURE TO DELETE ACCOUNT " + t.getAccId());
 			return false;
 		}
 		
+		log.info("DELETED ACCOUNT " + t.getAccId());
 		return true;
 		
 	}
@@ -137,9 +151,9 @@ public class AccountDAO implements GenericDAO<Account> {
 			
 			
 		} catch (SQLException e) {
-			return null;
+			
 		}
-		
+		log.warn("FAILURE TO GET ALL ACCOUNTS");
 		return null;
 	}
 	
@@ -165,6 +179,7 @@ public class AccountDAO implements GenericDAO<Account> {
 			}
 			
 		} catch (SQLException e) {
+			log.warn("FAILURE TO GET ALL ACCOUNTS WHERE " + key + "=" + val);
 			accs = null;
 		}
 		

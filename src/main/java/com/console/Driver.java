@@ -3,18 +3,25 @@ package com.console;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 import com.models.User;
 
 public class Driver {
-
+	
+	private static Logger log = Logger.getLogger(Driver.class);
+	
 	public static void main(String[] args) {
 		
 		while (true) {
+			
 			System.out.println("Welcome to the Console Based Banking Application");
 			
 			User u = getCurUser();
-			if (u != null)
+			if (u != null) {
+				log.info("LOGGING IN USER " + u.getUserId());
 				goToService(u);
+			}
 		}
 		
 	}

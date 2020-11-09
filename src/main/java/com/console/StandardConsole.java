@@ -28,8 +28,16 @@ public class StandardConsole extends Console {
 	protected void applyForAccount(int userId) {
 		Account acc = new Account(0, cur.getUserId(), 0, 0);
 		acc = accServ.create(acc);
-		System.out.println("An Account has been opened for you\n."
-				+ "It's default status is PENDING");
+		if (acc != null) {
+			log.info("ACCOUNT " + acc.getAccId() + " CREATED");
+			System.out.println("An Account has been opened for you\n."
+					+ "It's default status is PENDING");
+			
+		} else {
+			log.warn("ACCOUNT COULD NOT BE CREATED");
+			System.out.println("Sorry, but we could not create account at this time..");
+			
+		}
 		
 	}
 

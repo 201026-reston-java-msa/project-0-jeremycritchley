@@ -1,12 +1,15 @@
 package com.services;
 
 
+import org.apache.log4j.Logger;
+
 import com.dao.UserDAO;
 import com.models.User;
 import com.services.interfaces.LoginServiceInter;
 
 public class LoginService implements LoginServiceInter {
 	
+	private static Logger log = Logger.getLogger(LoginService.class);
 	UserDAO userd;
 	
 	public LoginService() {
@@ -17,8 +20,10 @@ public class LoginService implements LoginServiceInter {
 	public User login(String username, String password) {
 		User u = userd.getByString(username, "username");
 		if (u != null) {
-			if (!u.getPassword().equals(password)) 
+			if (!u.getPassword().equals(password)) {
+				log.warn("INVALID PASSWORD ENTERED FOR " + u.getUsername());
 				u = null;
+			}
 		}
 		return u;
 	}
@@ -38,8 +43,14 @@ public class LoginService implements LoginServiceInter {
 			return null;
 		
 		u.setRole("standard");
+		u = userd.create(u);
+		if (u == null) {
+			log.warn("FAILED TO REGISTER NEW USER");
+		} else {
+			log.info("REGISTERED NEW USER " + u.getUserId());
+		}
 		
-		return userd.create(u);
+		return u;
 	}
 
 	@Override

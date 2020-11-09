@@ -3,9 +3,12 @@ package com.console;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 import com.models.Account;
 import com.models.User;
 import com.services.AccountService;
+import com.services.LoginService;
 
 public abstract class Console {
 	
@@ -14,6 +17,7 @@ public abstract class Console {
 	protected Scanner input;
 	protected int count;
 	protected AccountService accServ;
+	protected static Logger log = Logger.getLogger(Console.class);
 	
 	public void run() {
 		
@@ -54,10 +58,11 @@ public abstract class Console {
 			System.out.println("Are you sure you want to logout? [y/n]");
 			c = input.nextLine();
 			
-		} while (!c.equalsIgnoreCase("y"));
+		} while (!c.equalsIgnoreCase("y") && !c.equalsIgnoreCase("n"));
 		
 		if (c.equalsIgnoreCase("y")) {
 			run = false;
+			log.info("LOGGING OUT USER " + cur.getUserId());
 		} 
 		
 	}
@@ -127,12 +132,10 @@ public abstract class Console {
 				System.out.println("Sorry, but that Account does not exist.\n"
 						+ "Rerouting you to home [Console]");
 			}
-			System.out.println("Please Enter the amount to transfer");
-			double amount = input.nextDouble();
-			
-			if (amount < 0) {
-				System.out.println("Cannot Transfer a negative amount.\n"
-						+ "Rerouting you to home [Console]");
+			double amount = 0;
+			while (amount <= 0) {
+				System.out.println("Please enter the amount to Transfer (greater than 0)");
+				input.nextDouble();
 			}
 			if (accServ.transfer(acc, destAcc, amount)) {
 				System.out.println("Transfer Successful");
@@ -152,7 +155,11 @@ public abstract class Console {
 		System.out.println("Please Enter the amount to deposit");
 		
 		try {
-			double amount = input.nextDouble();
+			double amount = 0;
+			while (amount <= 0) {
+				System.out.println("Please enter the amount to Deposit (greater than 0)");
+				input.nextDouble();
+			}
 			if (accServ.deposit(acc, amount)) {
 				System.out.println("Successful Deposit");
 			} else {
@@ -167,10 +174,14 @@ public abstract class Console {
 
 	protected void promptWithdraw(Account acc) {
 
-		System.out.println("Please enter the amount to Withdraw");
+		
 		
 		try {
-			double amount = input.nextDouble();
+			double amount = 0;
+			while (amount <= 0) {
+				System.out.println("Please enter the amount to Withdraw (greater than 0)");
+				input.nextDouble();
+			}
 			if (accServ.withdraw(acc, amount)) {
 				System.out.println("Successful Withdraw");
 			} else {

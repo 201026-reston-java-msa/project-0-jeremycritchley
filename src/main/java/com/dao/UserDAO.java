@@ -8,14 +8,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.dao.interfaces.GenericDAO;
 import com.models.Account;
 import com.models.User;
 import com.utils.ConnectionUtil;
 
 public class UserDAO implements GenericDAO<User> {
-	
+		
 	Connection connection;
+	private static Logger log = Logger.getLogger(UserDAO.class);
 	
 	public UserDAO() {
 		this.connection = ConnectionUtil.getConnection();
@@ -41,12 +44,15 @@ public class UserDAO implements GenericDAO<User> {
 			
 			if (rs.next()) {
 				t.setUserId(rs.getInt(1));
+				log.info("CREATED USER " + t.getUserId());
 			} else {
+				log.warn("FAILURE TO CREATE USER");
 				t = null;
 			}
 			
 			
 		} catch (SQLException e) {
+			log.warn("FAILURE TO CREATE USER");
 			t = null;
 		}
 
@@ -76,6 +82,7 @@ public class UserDAO implements GenericDAO<User> {
 			
 			
 		} catch (SQLException e) {
+			log.warn("FAILURE TO RETRIEVE USER " + id);
 			cur = null;
 		}
 		
@@ -94,9 +101,13 @@ public class UserDAO implements GenericDAO<User> {
 			ps.setString(5, t.getEmail());
 			ps.setString(6, t.getRole());
 			
-			if (!ps.execute())
+			if (!ps.execute()) {
+				log.warn("FAILURE TO UPDATE USER " + t.getUserId());
 				return null;
+			}
+			log.info("UPDATED USER " + t.getUserId());
 		} catch (SQLException e) {
+			log.warn("FAILURE TO UPDATE USER " + t.getUserId());
 			return null;
 		}
 		
@@ -119,12 +130,16 @@ public class UserDAO implements GenericDAO<User> {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, t.getUserId());
 			
-			if (ps.executeUpdate() == 0)
+			if (ps.executeUpdate() == 0) {
+				log.warn("FAILURE TO DELETE USER " + t.getUserId());
 				return false;
+			}
 			
 		} catch (SQLException e) {
+			log.warn("FAILURE TO DELETE USER " + t.getUserId());
 			return false;
 		}
+		log.info("DELETED USER " + t.getUserId());
 		return true;
 	}
 
@@ -157,7 +172,7 @@ public class UserDAO implements GenericDAO<User> {
 		} catch (SQLException e) {
 			
 		}
-		
+		log.warn("FAILURE TO GET ALL USERS");
 		return null;
 	}
 
@@ -180,11 +195,13 @@ public class UserDAO implements GenericDAO<User> {
 				cur.setLastName(rs.getString("last_name"));
 				cur.setEmail(rs.getString("email"));
 				cur.setRole(rs.getString("role"));
+			} else {
+				log.warn("FAILURE TO GET USER WHERE " + key + "=" + val);
 			}
 			
 			
 		} catch (SQLException e) {
-			
+			log.warn("FAILURE TO GET USER WHERE " + key + "=" + val);
 		}
 		
 		return cur;
