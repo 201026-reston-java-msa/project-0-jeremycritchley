@@ -1,5 +1,9 @@
 package com.console;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.dao.AccountDAO;
 import com.models.Account;
 import com.models.User;
 import com.services.AdminService;
@@ -54,12 +58,39 @@ public class AdminConsole extends EmployeeConsole{
 			deleteAccount();
 		} else if (n == 12) {
 			deleteUser();
+		} else if (n == 13) {
+			deleteAccountsByStatus();
 		} else {
 			super.processInput(n);
 		}
 	}
 	
 	
+	private void deleteAccountsByStatus() {
+		List<Account> accs = accServ.getByStatus(2);
+		
+		if (accs != null) {
+			for (Account a: accs) {
+				System.out.println(a.toString());
+			}
+
+			String c = "";
+			do {
+				System.out.println("Are you sure you want to delete the previously listed Account(s)? [y/n]");
+				c = input.nextLine();
+			} while (!c.equalsIgnoreCase("y") && !c.equalsIgnoreCase("n"));
+			
+			if (c.equalsIgnoreCase("y")) {
+				for (Account a: accs) {
+					adminServ.removeAccount(a);
+				}
+			}
+			
+			
+		}
+		
+	}
+
 	private void deleteAccount() {
 
 		System.out.println("Plese enter the Account ID of the account to be deleted");
@@ -114,6 +145,7 @@ public class AdminConsole extends EmployeeConsole{
 		System.out.println(count++ + " :\tTransfer to and from specified Accounts");
 		System.out.println(count++ + " :\tDelete Account");
 		System.out.println(count++ + " :\tDelete User");
+		System.out.println(count++ + " :\tDelete All Closed Accounts");
 	}
 	
 	@Override
