@@ -49,6 +49,20 @@ public class Account {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+
+	@Override
+	public String toString() {
+		String st = "";
+		if (status == 0) {
+			st = "PENDING";
+		} else if (status == 1) {
+			st = "OPEN";
+		} else if (status == 2) {
+			st = "CLOSED";
+		}
+		
+		return "ACCOUNT: " + accId + "\tOWNER: " + userId + "\nSTATUS: " + st + "\tBALANCE: $" + String.format("%.2f", balance);
+	}
 	
 	
 	

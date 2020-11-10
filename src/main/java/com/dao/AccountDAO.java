@@ -27,14 +27,13 @@ public class AccountDAO implements GenericDAO<Account> {
 	public Account create(Account t) {
 
 		try {
-			String sql = "INSERT INTO accounts (account_id, user_id, balance, status)"
-					+ "values(?,?,?,?);";
+			String sql = "INSERT INTO \"Project0\".accounts (user_id, balance, status)"
+					+ "values(?,?,?);";
 			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
-			ps.setInt(1, t.getAccId());
-			ps.setInt(2, t.getUserId());
-			ps.setDouble(3, t.getBalance());
-			ps.setInt(4, t.getStatus());
+			ps.setInt(1, t.getUserId());
+			ps.setDouble(2, t.getBalance());
+			ps.setInt(3, t.getStatus());
 			
 			ps.executeUpdate();
 			
@@ -48,6 +47,7 @@ public class AccountDAO implements GenericDAO<Account> {
 				t = null;
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			log.warn("FAILURE TO CREATE ACCOUNT");
 			t = null;
 		}
@@ -59,7 +59,7 @@ public class AccountDAO implements GenericDAO<Account> {
 	public Account get(int id) {
 		Account a = null;
 		try {
-			String sql = "SELECT * FROM accounts WHERE aaccount_id = ?;";
+			String sql = "SELECT * FROM \"Project0\".accounts WHERE account_id = ?;";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, id);
 			
@@ -85,13 +85,12 @@ public class AccountDAO implements GenericDAO<Account> {
 	public Account update(Account t) {
 		// TODO Auto-generated method stub
 		try {
-			String sql = "UPDATE accounts SET account_id = ?, user_id = ?, balance = ?, status = ?;";
+			String sql = "UPDATE \"Project0\".accounts SET balance = ?, status = ? WHERE account_id = ?;";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			
-			ps.setInt(1, t.getAccId());
-			ps.setInt(2, t.getUserId());
-			ps.setDouble(3, t.getBalance());
-			ps.setInt(4, t.getStatus());
+			ps.setDouble(1, t.getBalance());
+			ps.setInt(2, t.getStatus());
+			ps.setInt(3, t.getAccId());
 			if (ps.executeUpdate() == 0) {
 				log.warn("FAILURE TO UPDATE ACCOUNT " + t.getAccId());
 				return null;
@@ -108,7 +107,7 @@ public class AccountDAO implements GenericDAO<Account> {
 	public boolean delete(Account t) {
 
 		try {
-			String sql = "DELETE FROM accounts WHERE account_id = ?;";
+			String sql = "DELETE FROM \"Project0\".accounts WHERE account_id = ?;";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, t.getAccId());
 			
@@ -133,7 +132,7 @@ public class AccountDAO implements GenericDAO<Account> {
 		try {
 			allaccs = new ArrayList<Account>();
 			
-			String sql = "SELECT * FROM accounts;";
+			String sql = "SELECT * FROM \"Project0\".accounts;";
 			
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ResultSet  rs = ps.executeQuery();
@@ -151,16 +150,16 @@ public class AccountDAO implements GenericDAO<Account> {
 			
 			
 		} catch (SQLException e) {
-			
+			log.warn("FAILURE TO GET ALL ACCOUNTS");
 		}
-		log.warn("FAILURE TO GET ALL ACCOUNTS");
-		return null;
+		
+		return allaccs;
 	}
 	
 	public List<Account> getByInt(String key, int val) {
 		List<Account> accs = null;
 		try {
-			String sql = "SELECT * FROM accounts WHERE " + key + " = ?;";
+			String sql = "SELECT * FROM \"Project0\".accounts WHERE " + key + " = ?;";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, val);
 			
@@ -182,7 +181,8 @@ public class AccountDAO implements GenericDAO<Account> {
 			log.warn("FAILURE TO GET ALL ACCOUNTS WHERE " + key + "=" + val);
 			accs = null;
 		}
-		
+		if (accs.size() == 0)
+			accs = null;
 		return accs;
 	}
 

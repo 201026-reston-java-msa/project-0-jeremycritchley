@@ -18,7 +18,7 @@ public class LoginService implements LoginServiceInter {
 	
 	@Override
 	public User login(String username, String password) {
-		User u = userd.getByString(username, "username");
+		User u = userd.getByString("username", username);
 		if (u != null) {
 			if (!u.getPassword().equals(password)) {
 				log.warn("INVALID PASSWORD ENTERED FOR " + u.getUsername());
@@ -56,7 +56,7 @@ public class LoginService implements LoginServiceInter {
 	@Override
 	public boolean usernameExists(String username) {
 		
-		User u = userd.getByString(username, "username");
+		User u = userd.getByString("username", username);
 		if (u != null) 
 			return true;
 		return false;
@@ -64,7 +64,7 @@ public class LoginService implements LoginServiceInter {
 	
 	@Override
 	public boolean emailExists(String email ) {
-		User u = userd.getByString(email, "email");
+		User u = userd.getByString("email", email);
 		if (u != null) 
 			return true;
 		return false;

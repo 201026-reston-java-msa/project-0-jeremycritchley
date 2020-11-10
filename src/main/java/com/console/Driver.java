@@ -31,11 +31,11 @@ public class Driver {
 		// based on Login credentials
 		// create admin, employee, or standard console
 		Console console = null;
-		if (cur.getRole().equals("standard")) {
+		if (cur.getRole().toLowerCase().equals("standard")) {
 			console = new StandardConsole(cur);
-		} else if (cur.getRole().equals("employee")) {
+		} else if (cur.getRole().toLowerCase().equals("employee")) {
 			console = new EmployeeConsole(cur);
-		} else if (cur.getRole().equals("admin")) {
+		} else if (cur.getRole().toLowerCase().equals("admin")) {
 			console = new AdminConsole(cur);
 		}
 		
@@ -45,22 +45,26 @@ public class Driver {
 
 	public static User getCurUser() {
 		
+		LoginConsole ls = new LoginConsole();
+		User u = ls.init();
+		return u;
+		/*
 		Scanner input = new Scanner(System.in);
 		// create new LoginService
 		// Login or Register
 		
 		int choice = -1;
 		while (choice != 1 && choice != 2 && choice != 0) {
+			
 			System.out.println("Please enter a:\n"
 					+ "\t1 : to login to an existing account\n"
 					+ "\t2 : to register a new account\n"
 					+ "\t0 : to quit the application\n");
 		
 			try {
-				choice = input.nextInt();
-			} catch (InputMismatchException e) {
+				choice = Integer.parseInt(input.nextLine());
+			} catch (Exception e) {
 				System.out.println("That was not even a number...");
-				input.nextLine();
 			}
 		}
 		
@@ -99,7 +103,7 @@ public class Driver {
 		input.close();
 		return cur;
 		
-		
+		*/
 		
 		
 	}

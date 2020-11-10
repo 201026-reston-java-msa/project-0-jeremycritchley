@@ -20,7 +20,7 @@ public class AdminConsole extends EmployeeConsole{
 		if (n == 8) {
 			
 			System.out.println("Please enter the account ID to withdraw from");
-			int accnum = input.nextInt();
+			int accnum = Integer.parseInt(input.nextLine());
 			Account acc = accServ.getAccountById(accnum);
 			if (acc == null) {
 				System.out.println("The Account ID you entered did not exist");
@@ -31,7 +31,7 @@ public class AdminConsole extends EmployeeConsole{
 		} else if (n == 9) {
 			
 			System.out.println("Please enter the account ID to deposit to");
-			int accnum = input.nextInt();
+			int accnum = Integer.parseInt(input.nextLine());
 			Account acc = accServ.getAccountById(accnum);
 			if (acc == null) {
 				System.out.println("The Account ID you entered did not exist");
@@ -42,7 +42,7 @@ public class AdminConsole extends EmployeeConsole{
 		} else if (n == 10) {
 			
 			System.out.println("Please enter the transfer source account ID");
-			int accnum = input.nextInt();
+			int accnum = Integer.parseInt(input.nextLine());
 			Account acc = accServ.getAccountById(accnum);
 			if (acc == null) {
 				System.out.println("The Account ID you entered did not exist");
@@ -65,7 +65,7 @@ public class AdminConsole extends EmployeeConsole{
 		System.out.println("Plese enter the Account ID of the account to be deleted");
 		
 		try {
-			int id = input.nextInt();
+			int id = Integer.parseInt(input.nextLine());
 			Account acc = accServ.getAccountById(id);
 			if (acc == null) {
 				System.out.println("Account with ID " + id + " does not exist");
@@ -86,7 +86,7 @@ public class AdminConsole extends EmployeeConsole{
 
 		System.out.println("Please enter the User ID of the User to delete");
 		try {
-			int id = input.nextInt();
+			int id = Integer.parseInt(input.nextLine());
 			User u = empServ.viewByUser(id);
 			if (u == null) {
 				System.out.println("User with ID " + id + " does not exist");
@@ -94,10 +94,13 @@ public class AdminConsole extends EmployeeConsole{
 				System.out.println("Are you sure you want to delete: [y/n]\n" + u.toString());
 				String c = input.nextLine();
 				if (c.equalsIgnoreCase("y")) {
-					adminServ.removeUser(u);
+					if(adminServ.removeUser(u)) {
+						System.out.println("User successfully deleted");
+					}
 				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Input Mismatch Occured");
 		}
 		

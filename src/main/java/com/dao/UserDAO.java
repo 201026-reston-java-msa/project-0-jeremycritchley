@@ -28,16 +28,16 @@ public class UserDAO implements GenericDAO<User> {
 	public User create(User t) {
 		
 		try {
-			String sql = "INSERT INTO users (username, password, first_name, last_name, email, role)"
-					+ "values (?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO \"Project0\".users (username, password, first_name, last_name, email, role)"
+					+ "values (?, ?, ?, ?, ?, ?);";
 			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			ps.setString(1, t.getUsername());
 			ps.setString(2, t.getPassword());
 			ps.setString(3, t.getFirstName());
 			ps.setString(4, t.getLastName());
-			ps.setString(6, t.getEmail());
-			ps.setString(7, t.getRole());
+			ps.setString(5, t.getEmail());
+			ps.setString(6, t.getRole());
 			
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
@@ -52,6 +52,7 @@ public class UserDAO implements GenericDAO<User> {
 			
 			
 		} catch (SQLException e) {
+			e.printStackTrace();
 			log.warn("FAILURE TO CREATE USER");
 			t = null;
 		}
@@ -63,7 +64,7 @@ public class UserDAO implements GenericDAO<User> {
 	public User get(int id) {
 		User cur = null;
 		try {
-			String sql = "SELECT * FROM users WHERE users.user_id = ?;";
+			String sql = "SELECT * FROM \"Project0\".users WHERE user_id = ?;";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, id);
 			
@@ -92,7 +93,7 @@ public class UserDAO implements GenericDAO<User> {
 	@Override
 	public User update(User t) {
 		try {
-			String sql = "UPDATE users SET username = ?, password = ?, first_name = ?, last_name = ?, email = ?, role = ?;";
+			String sql = "UPDATE \"Project0\".users SET username = ?, password = ?, first_name = ?, last_name = ?, email = ?, role = ?;";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, t.getUsername());
 			ps.setString(2, t.getPassword());
@@ -116,17 +117,19 @@ public class UserDAO implements GenericDAO<User> {
 
 	@Override
 	public boolean delete(User t) {
-		try {
+		try 
+		{
 			// Delete accounts associated with user
 			AccountDAO accDao = new AccountDAO();
 			List<Account> accs = accDao.getByInt("user_id", t.getUserId());
-			for (Account a: accs) {
-				if (!accDao.delete(a))
-					return false;
+			if (accs != null) {
+				for (Account a: accs) {
+					if (!accDao.delete(a))
+						return false;
+				}
 			}
-			
 			// delete user
-			String sql = "DELETE FROM users WHERE user_id = ?;";
+			String sql = "DELETE FROM \"Project0\".users WHERE user_id = ?;";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, t.getUserId());
 			
@@ -135,7 +138,7 @@ public class UserDAO implements GenericDAO<User> {
 				return false;
 			}
 			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			log.warn("FAILURE TO DELETE USER " + t.getUserId());
 			return false;
 		}
@@ -147,7 +150,7 @@ public class UserDAO implements GenericDAO<User> {
 	public List<User> getAll() {
 		
 		try {
-			String sql = "SELECT * FROM users;";
+			String sql = "SELECT * FROM \"Project0\".users;";
 			
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
@@ -180,7 +183,7 @@ public class UserDAO implements GenericDAO<User> {
 		// TODO Auto-generated method stub
 		User cur = null;
 		try {
-			String sql = "SELECT * FROM users WHERE users." + key + " = ?;";
+			String sql = "SELECT * FROM \"Project0\".users WHERE " + key + " = ?;";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, val);
 			
@@ -201,6 +204,7 @@ public class UserDAO implements GenericDAO<User> {
 			
 			
 		} catch (SQLException e) {
+			e.printStackTrace();
 			log.warn("FAILURE TO GET USER WHERE " + key + "=" + val);
 		}
 		

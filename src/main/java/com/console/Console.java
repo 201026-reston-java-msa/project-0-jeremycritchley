@@ -9,6 +9,7 @@ import com.models.Account;
 import com.models.User;
 import com.services.AccountService;
 import com.services.LoginService;
+import com.utils.ScannerUtil;
 
 public abstract class Console {
 	
@@ -20,26 +21,28 @@ public abstract class Console {
 	protected static Logger log = Logger.getLogger(Console.class);
 	
 	public void run() {
-		
-		input = new Scanner(System.in);
+		accServ = new AccountService();
+		input = ScannerUtil.getScanner();
 		run = true;
 		
 		
 		while (run) {
 			
 			count = 1;
-			
+			System.out.println();
 			displayHeader();
 			
 			displayOptions();
 			
 			displayLogout();
+			System.out.println();
 			
 			try {
-				int in = input.nextInt();
+				int in = Integer.parseInt(input.nextLine());
 				
 				processInput(in);
 			} catch (Exception e) {
+				e.printStackTrace();
 				System.out.println("Invalid Input....");
 			}
 		
@@ -77,7 +80,7 @@ public abstract class Console {
 		List<Account> accs = accServ.getAccountsByUser(cur.getUserId());
 		
 		if (accs == null) {
-			System.out.println("Sorry... but it doesn't seem like you have an account");
+			System.out.println("Sorry... but it doesn't seem like you have any accounts");
 			String c = "";
 			do {
 				System.out.println("Would you Like to apply for one? [y/n]");
@@ -89,33 +92,36 @@ public abstract class Console {
 			}
 		} else {
 			int c = -1;
+			
 			do {
+				System.out.println("Enter the number of the Account specific action that you wish to perform");
+				int i = 1;
 				for (Account acc : accs) {
-					acc.toString();
-					int i = 1;
+					System.out.println(acc.toString());
 					if (acc.getStatus() == 1) {
-						System.out.println(i++ + " :\tWithdraw\n" + i++ + " :\tDeposit" + i++ + " :\tTransfer");
+						System.out.println(i++ + " :\tWithdraw\n" + i++ + " :\tDeposit\n" + i++ + " :\tTransfer");
 					}
 				}
 				System.out.println("0 :\tReturn to Home Screen");
 				try {
-					c = input.nextInt();
+					c = Integer.parseInt(input.nextLine());
 				} catch (Exception e) {
 					System.out.println("Try Again...");
 				}
-			} while (c > accs.size() * 3 && c < 0);
+			} while (c > accs.size() * 3 || c < 0);
 			
-			processAccountOption(accs.get(c/3), c);
+			processAccountOption(accs.get((c-1)/3), c);
 		}
 	}
 
 	protected void processAccountOption(Account account, int c) {
-		
-		if (c%3 == 0) {
-			promptWithdraw(account);
+		if (c == 0) {
+			
 		} else if (c%3 == 1) {
+			promptWithdraw(account);
+		} else if (c%3 == 2) {
 			promptDeposit(account);
-		} else {
+		} else if (c%3 == 0){
 			promptTransfer(account);
 		}
 		
@@ -126,7 +132,7 @@ public abstract class Console {
 		System.out.println("Please Enter the target Account ID");
 		
 		try {
-			int id = input.nextInt();
+			int id = Integer.parseInt(input.nextLine());
 			Account destAcc = accServ.getAccountById(id);
 			if (destAcc == null) {
 				System.out.println("Sorry, but that Account does not exist.\n"
@@ -135,7 +141,7 @@ public abstract class Console {
 			double amount = 0;
 			while (amount <= 0) {
 				System.out.println("Please enter the amount to Transfer (greater than 0)");
-				input.nextDouble();
+				amount = Double.parseDouble(input.nextLine());
 			}
 			if (accServ.transfer(acc, destAcc, amount)) {
 				System.out.println("Transfer Successful");
@@ -158,7 +164,7 @@ public abstract class Console {
 			double amount = 0;
 			while (amount <= 0) {
 				System.out.println("Please enter the amount to Deposit (greater than 0)");
-				input.nextDouble();
+				amount = Double.parseDouble(input.nextLine());
 			}
 			if (accServ.deposit(acc, amount)) {
 				System.out.println("Successful Deposit");
@@ -180,7 +186,7 @@ public abstract class Console {
 			double amount = 0;
 			while (amount <= 0) {
 				System.out.println("Please enter the amount to Withdraw (greater than 0)");
-				input.nextDouble();
+				amount = Double.parseDouble(input.nextLine());
 			}
 			if (accServ.withdraw(acc, amount)) {
 				System.out.println("Successful Withdraw");

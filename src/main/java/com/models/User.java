@@ -79,6 +79,20 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		if (role.toLowerCase().equals("admin")) {
+			sb.append("ADMIN\t");
+		} else if (role.toLowerCase().equals("employee")) {
+			sb.append("EMPLOYEE\t");
+		}
+		sb.append(username + "\t" + userId + "\n");
+		sb.append(firstName + "\t" + lastName + "\n");
+		sb.append("email: " + email + "\t" + "password: " + password + "\n");
+		return sb.toString();
+	}
 	
 	
 }

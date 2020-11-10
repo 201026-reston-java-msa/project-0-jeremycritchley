@@ -28,12 +28,12 @@ public class EmployeeConsole extends StandardConsole{
 		} else if (n == 4) {
 			
 			System.out.println("Please enter the UserID of the user you wish to view");
-			int userId = input.nextInt();
+			int userId = Integer.parseInt(input.nextLine());
 			User u = empServ.viewByUser(userId);
 			if (u == null) {
 				System.out.println("Invalid UserID");
 			} else {
-				u.toString();
+				System.out.println(u.toString());
 			}
 			
 		} else if (n == 5) {
@@ -46,12 +46,12 @@ public class EmployeeConsole extends StandardConsole{
 		} else if (n == 6) {
 			
 			System.out.println("Please enter the AccountID of the account you wish to view");
-			int accId = input.nextInt();
+			int accId = Integer.parseInt(input.nextLine());
 			Account a = accServ.getAccountById(accId);
 			if (a == null) {
 				System.out.println("Invalid AccountID");
 			} else {
-				a.toString();
+				System.out.println(a.toString());
 			}
 			
 		} else if (n == 7) {
@@ -75,12 +75,13 @@ public class EmployeeConsole extends StandardConsole{
 				
 				int c = -1;
 				do {
+					System.out.println(a);
 					System.out.println("Enter:\n\t1 to Approve\n\t2 to Deny\n\t0 to exit");
 					a.toString();
 					try {
-						c = input.nextInt();
+						c = Integer.parseInt(input.nextLine());
 					} catch (Exception e) {
-						System.out.println("Please enter a Number, Employee");
+						System.out.println("Please enter a Number");
 					}
 				} while (c < 0 || c > 2);
 				if (c == 1) {
@@ -92,7 +93,7 @@ public class EmployeeConsole extends StandardConsole{
 					}
 					System.out.println();
 				} else if (c == 2) {
-					a.setStatus(3);
+					a.setStatus(2);
 					if (empServ.update(a)) {
 						System.out.println("Account " + a.getAccId() + " is now Denied\n"
 								+ "It is now available to be deleted by an admin");
@@ -118,6 +119,7 @@ public class EmployeeConsole extends StandardConsole{
 		System.out.println(count++ + " :\tView by User");
 		System.out.println(count++ + " :\tView all Accounts");
 		System.out.println(count++ + " :\tView by Account");
+		System.out.println(count++ + " :\tApprove or Deny Accounts");
 	}
 	
 	@Override
