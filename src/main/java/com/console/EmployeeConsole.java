@@ -29,12 +29,20 @@ public class EmployeeConsole extends StandardConsole{
 		} else if (n == 4) {
 			
 			System.out.println("Please enter the UserID of the user you wish to view");
+			System.out.println();
 			int userId = Integer.parseInt(input.nextLine());
 			User u = empServ.viewByUser(userId);
 			if (u == null) {
 				System.out.println("Invalid UserID");
 			} else {
+				List<Account> accs = accServ.getAccountsByUser(u.getUserId());
 				System.out.println(u.toString());
+				if (accs != null) {
+					for (Account a: accs) {
+						System.out.println(a.toString());
+						System.out.println();
+					}
+				}
 			}
 			
 		} else if (n == 5) {

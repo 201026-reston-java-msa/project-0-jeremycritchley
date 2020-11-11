@@ -32,7 +32,7 @@ public class StandardConsole extends Console {
 		
 		if (acc != null) {
 			log.info("ACCOUNT " + acc.getAccId() + " CREATED");
-			System.out.println("An Account has been opened for you\n."
+			System.out.println("An Account has been opened for you.\n"
 					+ "It's default status is PENDING");
 			
 		} else {
