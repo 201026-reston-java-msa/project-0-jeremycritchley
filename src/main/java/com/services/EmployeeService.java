@@ -36,13 +36,6 @@ public class EmployeeService implements EmployeeServiceInter, AccountsById {
 		
 	}
 
-	@Override
-	public List<Account> viewOpenAccounts() {
-
-		accd = new AccountDAO();
-		return accd.getByInt("status", 0);
-	}
-
 	public boolean update(Account a) {
 		accd = new AccountDAO();
 		a = accd.update(a);

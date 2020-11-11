@@ -1,5 +1,6 @@
 package com.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -182,26 +183,19 @@ public class AccountDAO implements GenericDAO<Account> {
 
 	public boolean transfer(Account srcAcc, Account targetAcc, double amount) {
 		try {
-			String sql = "BEGIN;"
-					+ "UPDATE \"Project0\".accounts SET balance = ?"
-					+ "WHERE account_id = ?;"
-					+ "UPDATE \"Project0\".accounts SET balance = ?"
-					+ "WHERE account_id = ?;"
-					+ "COMMIT;";
+			String sql = "{call \"Project0\".transfer( " + srcAcc.getAccId() + ", " + targetAcc.getAccId() + ", " + amount + ")}";
 			
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setDouble(1, srcAcc.getBalance() - amount);
-			ps.setInt(2, srcAcc.getAccId());
-			ps.setDouble(3, targetAcc.getBalance() + amount);
-			ps.setInt(4, targetAcc.getAccId());
+			CallableStatement cstmt = connection.prepareCall(sql);
+		
+			cstmt.execute();
 			
-			ps.executeUpdate();
 			log.info("TRANSFER SUCCESS OF AMOUNT $" + amount + " FROM ACCOUNT " 
 						+ srcAcc.getAccId() + " TO ACCOUNT " + targetAcc.getAccId());
+			
 			return true;
 			
 		} catch (SQLException e) {
-			
+			e.printStackTrace();
 		}
 		
 		log.info("TRANSFER FAILURE OF AMOUNT $" + amount + " FROM ACCOUNT " 

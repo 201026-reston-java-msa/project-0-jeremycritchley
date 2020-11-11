@@ -22,6 +22,7 @@ public class EmployeeConsole extends StandardConsole{
 			
 			List<User> users = empServ.viewAllCustomers();
 			for (User u: users) {
+				System.out.println();
 				System.out.println(u.toString());
 			}
 			
@@ -40,6 +41,7 @@ public class EmployeeConsole extends StandardConsole{
 			
 			List<Account> accs = empServ.viewAllAccounts();
 			for (Account a: accs) {
+				System.out.println();
 				System.out.println(a.toString());
 			}
 			

@@ -22,9 +22,5 @@ public interface EmployeeServiceInter {
 	 */
 	User viewByUser(int userId);
 	
-	/*
-	 * view all accounts with status OPEN
-	 */
-	List<Account> viewOpenAccounts();
 
 }
