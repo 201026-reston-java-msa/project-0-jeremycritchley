@@ -24,43 +24,50 @@ import com.services.AdminService;
 import com.services.EmployeeService;
 
 public class Tests {
+	/*
 	@InjectMocks
-	private static final AccountService accServ = new AccountService();
+	private static final AccountService accMock = new AccountService();
 	@InjectMocks
-	private static final AdminService adServ = new AdminService();
+	private static final AdminService adMock = new AdminService();
 	@InjectMocks
-	private static EmployeeService empServ = new EmployeeService();
-	@Mock
+	private static EmployeeService empMock = new EmployeeService();
+	*/
 	private AccountDAO accd;
-	@Mock
+	
 	private UserDAO userd;
+	
+	private Account acc;
+	private static final AccountService accServ = new AccountService();
+	private static final AdminService adServ = new AdminService();
+	private static EmployeeService empServ = new EmployeeService();
 	
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
+		accd = new AccountDAO();
+		userd = new UserDAO();
+		acc = new Account();
+		acc.setAccId(5);
+		acc.setUserId(6);
+		acc.setStatus(1);
+		acc.setBalance(1234567);
+		
 	}
 	
 	@Test
 	public void testWithdraw() {
-		Account acc = new Account();
-		acc.setAccId(2);
-		acc.setBalance(10000);
-		accServ.withdraw(acc, 100);
-		verify(accd, times(1)).update(acc);
+		assertTrue(accServ.withdraw(acc, 1));
 	}
 	
 	@Test
 	public void testWithdrawFail() {
-		Account acc = new Account();
-		acc.setAccId(2);
-		acc.setBalance(100);
-		accServ.withdraw(acc, 10000);
-		verify(accd, times(0)).update(acc);
+	
+		assertFalse(accServ.withdraw(acc, Double.MAX_VALUE));
 	}
-/*	
+	
 	@Test
 	public void testDeposit() {
-		assertTrue(accServ.deposit(acc, 100));
+		assertTrue(accServ.deposit(acc, 1));
 	}
 	
 	@Test
@@ -72,42 +79,48 @@ public class Tests {
 	@Test
 	public void testTransferSuccess() {
 		Account a = acc;
-		a.setUserId(2);
-		a.setAccId(2);
-		assertTrue(accServ.transfer(acc, a, 100));
+		a.setAccId(0);
+		
+		assertTrue(accServ.transfer(acc, a, 1));
 	}
 	
 	@Test
 	public void testTransferFail() {
 		Account a = acc;
-		a.setUserId(2);
-		a.setAccId(2);
-		assertFalse(accServ.transfer(acc, a, 1000000));
+		
+		a.setAccId(0);
+		assertFalse(accServ.transfer(acc, a, Double.MAX_VALUE));
 	}
 	
 
 	
 	@Test
 	public void testRemoveUserFail() {
+		
 		User u = new User(0, "fake", "fakerson", "fake", "fakefake", "fake@fake", "fake");
+		//u = userd.create(u);
+		
 		assertFalse(adServ.removeUser(u));
 	}
 	
 	@Test
 	public void testRemoveUserSuccess() {
-		User u = new User(3, "remove", "remove", "remove", "remove", "remove", "remove");
+		User u = new User(0, "fake", "fakerson", "fake", "fakefake", "fake@fake", "fake");
+		u = userd.create(u);
+		
 		assertTrue(adServ.removeUser(u));
 	}
 	
 	@Test
 	public void testRemoveAccountFail() {
-		Account a = new Account(0, 0, 0.0, 0);
+		Account a = new Account(-1, -1, 0.0, -1);
 		assertFalse(adServ.removeAccount(a));
 	}
 	
 	@Test
 	public void testRemoveAccountSuccess() {
-		Account a = new Account(3, 0, 0.0, 0);
+		Account a = new Account(0, 2, 0.0, 0);
+		a = accd.create(a);
 		assertTrue(adServ.removeAccount(a));
 	}
 	
@@ -125,12 +138,12 @@ public class Tests {
 	
 	@Test
 	public void testViewByUser() {
-		assertNotNull(empServ.viewByUser(1));
+		assertNotNull(empServ.viewByUser(2));
 	}
 	
 	@Test
 	public void testViewByUserFail() {
-		assertNull(empServ.viewByUser(0));
+		assertNull(empServ.viewByUser(-1));
 	}
 	
 	@Test
@@ -140,15 +153,15 @@ public class Tests {
 	
 	@Test
 	public void testUpdateFail() {
-		Account a = new Account(0,0,0.0,0);
+		Account a = new Account(-1,-1,0.0,-1);
 		assertFalse(empServ.update(a));
 	}
 	
 	@Test
 	public void testUpdateSuccess() {
-		Account a = new Account(1,1,100.0,1);
-		assertTrue(empServ.update(a));
+		acc.setBalance(acc.getBalance()+1);
+		assertTrue(empServ.update(acc));
 	}
-	*/
+
 	
 }

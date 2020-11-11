@@ -199,7 +199,7 @@ public class UserDAO implements GenericDAO<User> {
 				cur.setEmail(rs.getString("email"));
 				cur.setRole(rs.getString("role"));
 			} else {
-				log.warn("FAILURE TO GET USER WHERE " + key + "=" + val);
+				
 			}
 			
 			

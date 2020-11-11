@@ -19,6 +19,7 @@ public class AccountService implements AccountServiceInter, AccountsById {
 		accDAO = new AccountDAO();
 	}
 	
+	
 	@Override
 	public boolean withdraw(Account acc, double amount) {
 
@@ -26,7 +27,7 @@ public class AccountService implements AccountServiceInter, AccountsById {
 			log.warn("OVERDRAW ATTEMPTED AT ACCOUNT " + acc.getAccId());
 			return false;
 		}
-		if (deposit(acc, amount*-1)) {
+		if (deposit(acc, amount*-1)) {	// call deposit on negative amount, check return val
 			log.info("WITHDRAW SUCCESS OF $" + amount + " FROM ACCOUNT " + acc.getAccId());
 			return true;
 		} else {
@@ -35,6 +36,7 @@ public class AccountService implements AccountServiceInter, AccountsById {
 		}
 	}
 
+	
 	@Override
 	public boolean deposit(Account acc, double amount) {
 		
@@ -51,6 +53,7 @@ public class AccountService implements AccountServiceInter, AccountsById {
 		return true;
 	}
 
+	
 	@Override
 	public boolean transfer(Account srcAcc, Account targetAcc, double amount) {
 

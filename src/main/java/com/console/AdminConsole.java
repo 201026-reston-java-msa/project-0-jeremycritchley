@@ -66,6 +66,10 @@ public class AdminConsole extends EmployeeConsole{
 	}
 	
 	
+	/*
+	 * private method for display accounts by CLOSED status
+	 * prompts [y/n] for deletion of all the listed users
+	 */
 	private void deleteAccountsByStatus() {
 		List<Account> accs = accServ.getByStatus(2);
 		
@@ -80,7 +84,7 @@ public class AdminConsole extends EmployeeConsole{
 				c = input.nextLine();
 			} while (!c.equalsIgnoreCase("y") && !c.equalsIgnoreCase("n"));
 			
-			if (c.equalsIgnoreCase("y")) {
+			if (c.equalsIgnoreCase("y")) {	// delete users
 				for (Account a: accs) {
 					adminServ.removeAccount(a);
 				}
@@ -90,7 +94,11 @@ public class AdminConsole extends EmployeeConsole{
 		}
 		
 	}
-
+	
+	/*
+	 * Prompt for Account ID of of account to delete
+	 * 	- if exists, ask for reassurance and delete
+	 */
 	private void deleteAccount() {
 
 		System.out.println("Plese enter the Account ID of the account to be deleted");
@@ -113,6 +121,10 @@ public class AdminConsole extends EmployeeConsole{
 		
 	}
 
+	/*
+	 * prompt for ID of user to delete
+	 * If user ID exists, ask for reassurance and delete
+	 */
 	private void deleteUser() {
 
 		System.out.println("Please enter the User ID of the User to delete");
@@ -153,10 +165,4 @@ public class AdminConsole extends EmployeeConsole{
 		System.out.println(cur.getFirstName() + "'s ADMIN VIEW");
 	}
 	
-	/*
-	 * Print options:
-	 * 	- super();
-	 * 	- delete account
-	 * 	- delete user
-	 */
 }

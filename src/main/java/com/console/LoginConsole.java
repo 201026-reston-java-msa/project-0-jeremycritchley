@@ -11,6 +11,10 @@ public class LoginConsole {
 	private Scanner input;
 	private LoginService ls;
 	
+	/*
+	 * Prompt for username and password
+	 * send to LoginService.login() to get user with username and password
+	 */
 	User login() {
 		ls = new LoginService();
 		
@@ -25,6 +29,13 @@ public class LoginConsole {
 		return cur;
 	}
 	
+	/*
+	 * Create new user
+	 * 	- default role of standard
+	 * 	- cannot use username already in DB
+	 * 	- cannot use email already in DB
+	 * 	- userID automatically assigned on creation
+	 */
 	User register() {
 		ls = new LoginService();
 		
@@ -66,7 +77,19 @@ public class LoginConsole {
 		
 		return cur;
 	}
-
+	
+	/*
+	 * Called by of Driver.getCurUser()
+	 * 
+	 * Prompt
+	 * 	- login
+	 * 	- register
+	 * 	- quit application
+	 * 
+	 * perform respective action
+	 * 	- if cannot get a current user (register fails, login fails),
+	 * 		Prompt to try again or exit app
+	 */
 	public User init() {
 		
 		input = ScannerUtil.getScanner();

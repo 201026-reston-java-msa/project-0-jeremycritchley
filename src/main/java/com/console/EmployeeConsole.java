@@ -63,6 +63,15 @@ public class EmployeeConsole extends StandardConsole{
 		}
 	}
 	
+	/*
+	 * List Accounts one-by-one with status PENDING
+	 * after each account Prompt
+	 * 	1. Approve
+	 * 	2. Deny
+	 * 	0. return to home console
+	 * respectively, approve or deny account
+	 * or exit process if 0
+	 */
 	private void approveOrDeny() {
 		
 		
