@@ -175,6 +175,7 @@ public abstract class Console {
 			if (destAcc == null) {	// destination account ID does not exist
 				System.out.println("Sorry, but that Account does not exist.\n"
 						+ "Rerouting you to home [Console]");
+				return;
 			}
 			
 			double amount = 0;

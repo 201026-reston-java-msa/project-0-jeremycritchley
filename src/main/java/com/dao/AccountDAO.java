@@ -91,10 +91,7 @@ public class AccountDAO implements GenericDAO<Account> {
 			ps.setDouble(1, t.getBalance());
 			ps.setInt(2, t.getStatus());
 			ps.setInt(3, t.getAccId());
-			if (ps.executeUpdate() == 0) {
-				log.warn("FAILURE TO UPDATE ACCOUNT " + t.getAccId());
-				return null;
-			}
+			ps.executeUpdate();
 			log.info("UPDATED ACCOUNT " + t.getAccId());
 		} catch (SQLException e) {
 			log.warn("FAILURE TO UPDATE ACCOUNT " + t.getAccId());
@@ -111,10 +108,7 @@ public class AccountDAO implements GenericDAO<Account> {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, t.getAccId());
 			
-			if (ps.executeUpdate() == 0) {
-				log.warn("FAILURE TO DELETE ACCOUNT " + t.getAccId());
-				return false;
-			}
+			ps.executeUpdate();
 			
 		} catch (SQLException e) {
 			log.warn("FAILURE TO DELETE ACCOUNT " + t.getAccId());
@@ -184,6 +178,35 @@ public class AccountDAO implements GenericDAO<Account> {
 		if (accs.size() == 0)
 			accs = null;
 		return accs;
+	}
+
+	public boolean transfer(Account srcAcc, Account targetAcc, double amount) {
+		try {
+			String sql = "BEGIN;"
+					+ "UPDATE \"Project0\".accounts SET balance = ?"
+					+ "WHERE account_id = ?;"
+					+ "UPDATE \"Project0\".accounts SET balance = ?"
+					+ "WHERE account_id = ?;"
+					+ "COMMIT;";
+			
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setDouble(1, srcAcc.getBalance() - amount);
+			ps.setInt(2, srcAcc.getAccId());
+			ps.setDouble(3, targetAcc.getBalance() + amount);
+			ps.setInt(4, targetAcc.getAccId());
+			
+			ps.executeUpdate();
+			log.info("TRANSFER SUCCESS OF AMOUNT $" + amount + " FROM ACCOUNT " 
+						+ srcAcc.getAccId() + " TO ACCOUNT " + targetAcc.getAccId());
+			return true;
+			
+		} catch (SQLException e) {
+			
+		}
+		
+		log.info("TRANSFER FAILURE OF AMOUNT $" + amount + " FROM ACCOUNT " 
+				+ srcAcc.getAccId() + " TO ACCOUNT " + targetAcc.getAccId());
+		return false;
 	}
 
 }

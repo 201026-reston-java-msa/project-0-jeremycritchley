@@ -57,9 +57,8 @@ public class AccountService implements AccountServiceInter, AccountsById {
 	@Override
 	public boolean transfer(Account srcAcc, Account targetAcc, double amount) {
 
-		if (withdraw(srcAcc, amount)) {
-			if (deposit(targetAcc, amount)) {
-				log.info("TRANSFER SUCCESS FROM ACCOUNT " + srcAcc.getAccId() + " TO ACCOUNT " + targetAcc.getAccId() + " OF AMOUNT $" + amount );
+		if (amount < srcAcc.getBalance()) {
+			if (accDAO.transfer(srcAcc, targetAcc, amount)) {
 				return true;
 			}
 		}
