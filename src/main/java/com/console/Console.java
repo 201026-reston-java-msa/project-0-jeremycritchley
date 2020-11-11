@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 import com.models.Account;
 import com.models.User;
 import com.services.AccountService;
-import com.services.LoginService;
 import com.utils.ScannerUtil;
 
 public abstract class Console {

@@ -1,9 +1,7 @@
 package com.console;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.dao.AccountDAO;
 import com.models.Account;
 import com.models.User;
 import com.services.AdminService;

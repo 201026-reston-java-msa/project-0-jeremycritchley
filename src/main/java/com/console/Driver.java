@@ -1,8 +1,5 @@
 package com.console;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 import org.apache.log4j.Logger;
 
 import com.models.User;
