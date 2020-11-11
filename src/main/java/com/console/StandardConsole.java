@@ -25,7 +25,8 @@ public class StandardConsole extends Console {
 		
 	}
 
-	private void displayUserInfo() {
+	@Override
+	protected void displayUserInfo() {
 		System.out.println(cur.toString());
 		String c = "";
 		while (!c.equalsIgnoreCase("y") && !c.equalsIgnoreCase("n")) {
@@ -39,8 +40,9 @@ public class StandardConsole extends Console {
 				
 		
 	}
-
-	private void promptUpdateUser() {
+	
+	@Override
+	protected void promptUpdateUser() {
 		LoginService ls = new LoginService();
 		boolean commit = false;
 		while (!commit) {

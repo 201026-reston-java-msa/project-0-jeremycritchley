@@ -182,7 +182,6 @@ public class UserDAO implements GenericDAO<User> {
 	}
 
 	public User getByString(String key, String val) {
-		// TODO Auto-generated method stub
 		User cur = null;
 		try {
 			String sql = "SELECT * FROM \"Project0\".users WHERE " + key + " = ?;";

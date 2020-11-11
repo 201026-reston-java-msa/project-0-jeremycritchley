@@ -265,6 +265,8 @@ public abstract class Console {
 	 */
 	protected abstract void displayHeader();
 
+	protected abstract void displayUserInfo();
 	
+	protected abstract void promptUpdateUser();
 	
 }
