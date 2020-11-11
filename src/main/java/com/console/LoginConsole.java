@@ -40,8 +40,10 @@ public class LoginConsole {
 		ls = new LoginService();
 		
 		System.out.println("Welcome Newcomer to the Console Banking Application\n"
-				+ "Just a few things to get started...\n"
-				+ "Please Enter :\n"
+				+ "Just a few things to get started...");
+		
+		
+		System.out.println("Please Enter :\n"
 				+ "First Name:");
 		
 		String firstname = input.nextLine();
@@ -73,6 +75,8 @@ public class LoginConsole {
 		
 		
 		User cur = new User(0, username, password, firstname, lastname, email, "standard");
+		
+		
 		cur = ls.register(cur);
 		
 		return cur;

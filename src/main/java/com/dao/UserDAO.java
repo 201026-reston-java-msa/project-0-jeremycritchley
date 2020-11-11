@@ -93,7 +93,7 @@ public class UserDAO implements GenericDAO<User> {
 	@Override
 	public User update(User t) {
 		try {
-			String sql = "UPDATE \"Project0\".users SET username = ?, password = ?, first_name = ?, last_name = ?, email = ?, role = ?;";
+			String sql = "UPDATE \"Project0\".users SET username = ?, password = ?, first_name = ?, last_name = ?, email = ?, role = ? where user_id = ?;";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, t.getUsername());
 			ps.setString(2, t.getPassword());
@@ -101,12 +101,14 @@ public class UserDAO implements GenericDAO<User> {
 			ps.setString(4, t.getLastName());
 			ps.setString(5, t.getEmail());
 			ps.setString(6, t.getRole());
+			ps.setInt(7, t.getUserId());
 			
-			if (!ps.execute()) {
-				log.warn("FAILURE TO UPDATE USER " + t.getUserId());
-				return null;
-			}
+			ps.executeUpdate();
+			
 			log.info("UPDATED USER " + t.getUserId());
+
+			
+			
 		} catch (SQLException e) {
 			log.warn("FAILURE TO UPDATE USER " + t.getUserId());
 			return null;

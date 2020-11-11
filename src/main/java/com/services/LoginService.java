@@ -70,5 +70,13 @@ public class LoginService implements LoginServiceInter {
 		return false;
 	}
 
+	public boolean update(User cur) {
+		User u = userd.update(cur);
+		if (u == null) {
+			return false;
+		}
+		return true;
+	}
+
 
 }

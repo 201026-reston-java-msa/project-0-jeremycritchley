@@ -2,6 +2,7 @@ package com.console;
 
 import com.models.Account;
 import com.models.User;
+import com.services.LoginService;
 
 public class StandardConsole extends Console {
 	
@@ -15,12 +16,98 @@ public class StandardConsole extends Console {
 		if (in == 1) {
 			displayPersonalAccountOptions();
 		} else if (in == 2) {
-			System.out.println(cur.toString());
+			displayUserInfo();
 		} else if (in == 0){
 			logout();
 		} else {
 			System.out.println("Invalid Input");
 		}
+		
+	}
+
+	private void displayUserInfo() {
+		System.out.println(cur.toString());
+		String c = "";
+		while (!c.equalsIgnoreCase("y") && !c.equalsIgnoreCase("n")) {
+			System.out.println("Would you like to update your personal information? [y/n]");
+			c = input.nextLine();
+		}
+		
+		if (c.equalsIgnoreCase("y")) {
+			promptUpdateUser();
+		}
+				
+		
+	}
+
+	private void promptUpdateUser() {
+		LoginService ls = new LoginService();
+		boolean commit = false;
+		while (!commit) {
+			String c = "";
+			int n = -1;
+			while (n < 0 || n > 5) {
+				System.out.println("Update:\n"
+						+ "1 :\tFirst Name\n"
+						+ "2 :\tLast Name\n"
+						+ "3 :\tUsername\n"
+						+ "4 :\tPassword\n"
+						+ "5 :\tEmail\n"
+						+ "0 :\tCommit Update");
+				c = input.nextLine();
+				
+				try {
+					n = Integer.parseInt(c);
+				} catch (Exception e) {
+					
+				}
+			}
+			
+			if (n != 0) 
+				System.out.print("Please enter new ");
+			
+			switch (n) {
+				case 1:
+					System.out.println("First Name");
+					cur.setFirstName(input.nextLine());
+					break;
+				case 2:
+					System.out.println("Last Name");
+					cur.setLastName(input.nextLine());
+					break;
+				case 3:
+					System.out.println("Username");
+					String temp = input.nextLine();
+					if (ls.usernameExists(temp) && !temp.equals(cur.getUsername())) {
+						System.out.println("Username already exists");
+					}
+					cur.setUsername(temp);
+					break;
+				case 4: 
+					System.out.println("Password");
+					cur.setPassword(input.nextLine());
+					break;
+				case 5:
+					System.out.println("Email");
+					String email = input.nextLine();
+					if (ls.emailExists(email) && !email.equals(cur.getEmail())) {
+						System.out.println("Email already exists");
+					}
+					cur.setEmail(email);
+					break;
+				case 0:
+					commit = true;
+					break;
+			}
+		
+		}
+		
+		if (ls.update(cur)) {
+			System.out.println("Update Successful");
+		} else {
+			System.out.println("Update Failed");
+		}
+		System.out.println();
 		
 	}
 
